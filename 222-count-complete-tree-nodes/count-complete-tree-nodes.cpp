@@ -11,19 +11,31 @@
  */
 class Solution {
 public:
-    void inOrder(TreeNode* &root,int& cnt){
-    if(root==nullptr){
-        return;
-    }
-    cnt++; 
-    inOrder(root->left,cnt);
-    inOrder(root->right,cnt);
-}
     int countNodes(TreeNode* root) {
-        int cnt=0;
-        inOrder(root,cnt);
-        return cnt;
+        if(root==nullptr) return 0;
 
+        int lh=findHLeft(root);
+        int rh=findHRight(root);
+
+        if(lh==rh) return (1<<lh)-1;
+
+        return 1+countNodes(root->left)+countNodes(root->right);
         
+    }
+    int findHLeft(TreeNode* node){
+        int cnt=0;
+        while(node){
+            cnt++;
+            node=node->left;
+        }
+        return cnt;
+    }
+    int findHRight(TreeNode* node){
+        int cnt=0;
+        while(node){
+            cnt++;
+            node=node->right;
+        }
+        return cnt;
     }
 };

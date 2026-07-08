@@ -1,46 +1,52 @@
 class Solution {
 public:
-    vector<int> topologicalOrder( unordered_map<int,vector<int>> &adj, int n, vector<int>& indegree){
-        int cnt=0;
-        queue<int> q;
+    bool hasCycle;
+    void dfs(unordered_map<int,vector<int>> &adj, int u, vector<bool>& visited, vector<bool>& inRecursion, stack<int>& st){
+        visited[u]=true;
+        inRecursion[u]=true;
 
-        vector<int> res;
-        
-        for(int i=0 ; i<n ; i++){
-            if(indegree[i]==0){
-                q.push(i);
-                res.push_back(i);
-                cnt++;
+        for(int &v : adj[u]){
+            if(inRecursion[v]==true){
+                hasCycle=true;
+                return;
+            }
+            if(!visited[v]){
+                dfs(adj,v,visited,inRecursion,st);
             }
         }
-        while(!q.empty()){
-            int u=q.front();
-            q.pop();
-            for(int &v : adj[u]){
-                indegree[v]--;
-                if(indegree[v]==0){
-                    q.push(v);
-                    res.push_back(v);
-                    cnt++;
-                }
-            }
-        }
-        if(cnt==n){
-            return res;
-        }else{
-            return {};
-        }
+        st.push(u);
+        inRecursion[u]=false;
+
     }
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        // using DFS
         unordered_map<int,vector<int>> adj;
-        vector<int> indegree(numCourses,0);
+        vector<bool> visited(numCourses,false);
+        vector<bool> inRecursion(numCourses,false);
 
-        for(auto & edge : prerequisites){
-            int a=edge[0];
-            int b=edge[1];
-            indegree[a]++;
+        for(auto &e : prerequisites){
+            int a=e[0];
+            int b=e[1];
             adj[b].push_back(a);
         }
-        return topologicalOrder(adj,numCourses,indegree);
+        hasCycle=false;
+        stack<int> st;
+        for(int i=0 ; i<numCourses ; i++){
+            if(!visited[i]){
+                dfs(adj,i,visited,inRecursion,st);
+            }
+        }
+        if(hasCycle){
+            return {};
+        }
+
+        vector<int> result;
+        while(!st.empty()){
+            result.push_back(st.top());
+            st.pop();
+        }
+        return result;
+
+        
     }
 };

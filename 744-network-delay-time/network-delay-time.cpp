@@ -37,7 +37,7 @@ public:
         for(int i=1 ; i<=n ; i++){
             maxi=max(maxi,result[i]);
         }
-        if(maxi==INT_MIN || maxi==2147483647){
+        if(maxi==INT_MAX){
             return -1;
         }else return maxi;
         

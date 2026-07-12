@@ -17,15 +17,16 @@ public:
             return x>=0 && x<n && y>=0 && y<m;
         };
 
-        priority_queue<P,vector<P> , greater<P>> q;
+        //priority_queue<P,vector<P> , greater<P>> q;
+        queue<P> q;
         vector<vector<int>> result(n,vector<int>(m,INT_MAX));
 
         q.push({0,{0,0}});
         result[0][0]=0;
 
         while(!q.empty()){
-            int d=q.top().first;
-            pair<int,int> node = q.top().second;
+            int d=q.front().first;
+            pair<int,int> node = q.front().second;
             int x=node.first;
             int y=node.second;
             q.pop();

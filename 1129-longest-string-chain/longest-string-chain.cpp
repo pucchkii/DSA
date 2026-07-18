@@ -1,25 +1,26 @@
 class Solution {
 public:
+
     int n;
     int t[1001][1001];
-    static bool myFunction(string &word1, string &word2){
+    static bool myFunction(string& word1, string& word2){
         return word1.length()<word2.length();
     }
 
     bool isPred(string& prev, string& curr){
-        int n=prev.size();
-        int m=curr.size();
+        int a=prev.size();
+        int b=curr.size();
 
-        if((m-n)!=1 || n>m) return false;
+        if(a>b || (b-a!=1)) return false;
+
         int i=0, j=0;
-
-        while(i<n && j<m){
+        while(i<a && j<b){
             if(prev[i]==curr[j]){
                 i++;
             }
             j++;
         }
-        return i==n;
+        return i==a;
     }
 
     int LIS(vector<string>& words, int idx, int prev){
@@ -29,15 +30,14 @@ public:
         if(prev!=-1 && t[prev][idx]!=-1){
             return t[prev][idx];
         }
-        int take=0,skip=0;
-        if(prev==-1 ||isPred(words[prev],words[idx])){
+        int take=0, skip=0;
+        if(prev==-1 || isPred(words[prev],words[idx])){
             take=1+LIS(words,idx+1,idx);
         }
         skip=LIS(words,idx+1,prev);
         if(prev!=-1){
             t[prev][idx]=max(take,skip);
         }
-
         return max(take,skip);
     }
     int longestStrChain(vector<string>& words) {
@@ -45,5 +45,6 @@ public:
         memset(t,-1,sizeof(t));
         sort(begin(words),end(words),myFunction);
         return LIS(words,0,-1);
+        
     }
 };

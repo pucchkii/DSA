@@ -3,7 +3,7 @@ public:
     int n;
     int t[1001][1001];
     
-    int solve(const string &s, int i , int j){
+    int solve(string &s, int i , int j){
         if(i>j){
             return 0;
         }

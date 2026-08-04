@@ -28,7 +28,7 @@ public:
 
         vector<int> color(n+1,-1);
         int currColor=1;
-        for(int i=0 ; i<n ; i++){
+        for(int i=1; i<=n ; i++){
             if(color[i]==-1){
                 if(dfs(adj,i,color,currColor)==false){
                     return false;

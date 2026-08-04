@@ -4,10 +4,10 @@ public:
     bool notPresent(int k, vector<int>& nums){
         for(int i=0 ; i<n ; i++){
             if(nums[i]==k){
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
     vector<int> findMissingElements(vector<int>& nums) {
         int mini=*min_element(nums.begin(),nums.end());
@@ -18,12 +18,9 @@ public:
         int l=maxi-mini+1;
 
         for(int i=mini ; i<maxi ; i++){
-            if(!notPresent(i,nums)){
+            if(notPresent(i,nums)){
                 ans.push_back(i);
             }  
-        }
-        for(int i=0 ; i<n ; i++){
-            
         }
         return ans;
     }

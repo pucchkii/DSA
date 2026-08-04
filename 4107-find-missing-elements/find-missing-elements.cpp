@@ -1,24 +1,21 @@
 class Solution {
 public:
     int n;
-    bool notPresent(int k, vector<int>& nums){
-        for(int i=0 ; i<n ; i++){
-            if(nums[i]==k){
-                return false;
-            }
-        }
-        return true;
-    }
+    int t[101];
     vector<int> findMissingElements(vector<int>& nums) {
         int mini=*min_element(nums.begin(),nums.end());
         int maxi=*max_element(nums.begin(),nums.end());
         n=nums.size();
         vector<int> ans;
+        memset(t,false,sizeof(t));
+        for(int x : nums){
+            t[x]=true;
+        }
 
         int l=maxi-mini+1;
 
-        for(int i=mini ; i<maxi ; i++){
-            if(notPresent(i,nums)){
+        for(int i=mini ; i<=maxi ; i++){
+            if(!t[i]){
                 ans.push_back(i);
             }  
         }

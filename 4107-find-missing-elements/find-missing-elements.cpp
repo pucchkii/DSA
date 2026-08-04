@@ -3,16 +3,17 @@ public:
     int n;
     int t[101];
     vector<int> findMissingElements(vector<int>& nums) {
-        int mini=*min_element(nums.begin(),nums.end());
-        int maxi=*max_element(nums.begin(),nums.end());
+        int maxi=INT_MIN;
+        int mini=INT_MAX;
         n=nums.size();
         vector<int> ans;
         memset(t,false,sizeof(t));
         for(int x : nums){
+            maxi=max(maxi,x);
+            mini=min(mini,x);
             t[x]=true;
         }
 
-        int l=maxi-mini+1;
 
         for(int i=mini ; i<=maxi ; i++){
             if(!t[i]){

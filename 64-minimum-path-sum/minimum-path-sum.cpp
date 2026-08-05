@@ -24,12 +24,6 @@ public:
                 t[i][j]=grid[i][j]+min(t[i-1][j],t[i][j-1]);
             }
         }
-        for(int i=0 ; i<m ; i++){
-            for(int j=0 ; j<n ; j++){
-                cout<<t[i][j]<<" ";
-            }
-            cout<<endl;
-        }
 
         // t[m-1][n-1] :- minimum path sum to reach (m-1,n-1) form 0,0;
         return t[m-1][n-1];

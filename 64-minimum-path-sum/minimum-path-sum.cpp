@@ -1,32 +1,31 @@
 class Solution {
 public:
+    int m, n;
+    int t[201][201];
+
+    int solve(vector<vector<int>>& grid, int i, int j) {
+
+        if (i >= m || j >= n)
+            return INT_MAX;
+
+        if (i == m - 1 && j == n - 1)
+            return grid[i][j];
+
+        if (t[i][j] != -1)
+            return t[i][j];
+
+        int down = solve(grid, i + 1, j);
+        int right = solve(grid, i, j + 1);
+
+        return t[i][j] = grid[i][j] + min(down, right);
+    }
+
     int minPathSum(vector<vector<int>>& grid) {
-        int m=grid.size();
-        int n=grid[0].size();
-        vector<vector<int>> t(m,vector<int>(n));
-        // state definiton :- t[i][j]=min path sum to reach point (i,j) form (0,0);
+        m = grid.size();
+        n = grid[0].size();
 
-        t[0][0]=grid[0][0]; // starting point
+        memset(t, -1, sizeof(t));
 
-        // fill first row
-        for(int col=1 ; col<n ; col++){
-            t[0][col]=grid[0][col]+t[0][col-1];
-        }
-
-        // fill fill col
-        for(int row=1 ; row<m ; row++){
-            t[row][0]=grid[row][0]+t[row-1][0];
-        }
-
-        // now bottom up
-        for(int i=1 ; i<m ; i++){
-            for(int j=1 ; j<n ; j++){
-                t[i][j]=grid[i][j]+min(t[i-1][j],t[i][j-1]);
-            }
-        }
-
-        // t[m-1][n-1] :- minimum path sum to reach (m-1,n-1) form 0,0;
-        return t[m-1][n-1];
-
+        return solve(grid, 0, 0);
     }
 };
